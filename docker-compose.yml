@@ -40,7 +40,9 @@ services:
             - web
         labels:
             - "traefik.enable=true"
-            - "traefik.http.routers.auth-service.rule=Host(`api.${DOMAIN}`) && Path(`/api/auth`)"
+            - "traefik.http.middlewares.auth-service.addprefix.prefix=/api"
+            - "traefik.http.routers.auth-service.middlewares=auth-service"
+            - "traefik.http.routers.auth-service.rule=Host(`api.${DOMAIN}`) && Path(`/auth`)"
             - "traefik.http.routers.auth-service.entrypoints=websecure"
             - "traefik.http.routers.auth-service.service=auth-service"
             - "traefik.http.services.auth-service.loadbalancer.server.port=80"
