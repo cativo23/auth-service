@@ -37,17 +37,17 @@ services:
         networks:
             - auth-service
             - parking-microservices_gateway
-            #- web
+            - web
         labels:
             - "traefik.enable=true"
-            - "traefik.http.middlewares.vehicles.replacepath.path=/api/v1/vehicles"
-            - "traefik.http.routers.vehicles.middlewares=vehicles"
-            - "traefik.http.routers.vehicles.rule=Host(`api.${DOMAIN}`) && Path(`/api/v1/vehicles`)"
-            - "traefik.http.routers.vehicles.entrypoints=websecure"
-            - "traefik.http.routers.vehicles.service=vehicles"
-            - "traefik.http.services.vehicles.loadbalancer.server.port=80"
-            - "traefik.http.routers.vehicles.tls.certresolver=lets-encrypt"
-            - "traefik.http.routers.vehicles.tls=true"
+            - "traefik.http.middlewares.auth-service.replacepath.path=/api/auth"
+            - "traefik.http.routers.auth-service.middlewares=auth-service"
+            - "traefik.http.routers.auth-service.rule=Host(`api.${DOMAIN}`) && Path(`/api/auth`)"
+            - "traefik.http.routers.auth-service.entrypoints=websecure"
+            - "traefik.http.routers.auth-service.service=auth-service"
+            - "traefik.http.services.auth-service.loadbalancer.server.port=80"
+            - "traefik.http.routers.auth-service.tls.certresolver=lets-encrypt"
+            - "traefik.http.routers.auth-service.tls=true"
             - "traefik.docker.network=web"
         depends_on:
             - auth-service.app
@@ -81,6 +81,8 @@ networks:
         external: true
     parking-microservices_internal:
         external: true
+    web:
+     external: true
 volumes:
     auth-service-mysql:
         driver: local
