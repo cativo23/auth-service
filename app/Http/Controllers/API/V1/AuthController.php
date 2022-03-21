@@ -56,4 +56,11 @@ class AuthController extends Contracts\BaseAPIController
         ]
     );
     }
+
+    public function index(){
+        return $this->setStatusCode(Response::HTTP_OK)->success(
+            'Working',
+            ['version' => 1]
+        );
+    }
 }
